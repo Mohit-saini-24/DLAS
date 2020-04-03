@@ -176,6 +176,7 @@ router.get('/:id/view' , async(req,res) => {
     try {
         let allCommittee = await Committee.find({});
         if (allCommittee == '' || allCommittee == null) {
+            res.redirect('/')
             return;
         }
         let userCommittee = [] // committee joined by logged user
