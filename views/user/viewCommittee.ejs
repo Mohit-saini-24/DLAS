@@ -1,0 +1,19 @@
+<h1>View Committee</h1>
+
+<table>
+    <tr>        
+        <th>Committee Name</th>
+        <th>Committee Amount</th>
+        <th>Bidding Frequency</th>     
+    </tr>
+    <% userCommittee.forEach(element => { %>
+    <tr>
+        <td><%= element.committeeName%></td>
+        <td><%= element.committeeAmount%></td>        
+        <td><%= element.biddingFrequency%></td>        
+    </tr>
+    <% }) %>
+
+</table>
+
+<a href="/">Home</a>

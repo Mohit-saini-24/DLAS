@@ -1,0 +1,48 @@
+<h1>Admin Dashboard</h1>
+
+<h1>Create New Committee</h1>
+<hr>
+<form action="/logout?_method=DELETE" method="POST">
+    <button type="submit">Logout</button>
+</form>
+<hr>
+<hr>
+<form action="/createCommittee" method="POST">
+    <label>Committee Name</label>
+    <input type="text" name="committeeName" id="committeeName" placeholder="Enter Committee Name">
+    <hr>
+    <label>Committee Amount</label>
+    <input type="number" name="committeeAmount" id="committeeAmount" placeholder="Enter amount of committee">
+    <hr>
+    <label>Number of Members</label>
+    <input type="number" name="noOfMembers" id="noOfMembers" min="2" max="12">
+    <hr>
+    <label>Frequency For Bidding : No of Days</label>
+    <input type="number" name="biddingFrequency" id="biddingFrequency">
+    <hr>
+    <label>Enter Commission Percentage from each pool</label>
+    <input type="number" name="commissionPercentage" id="commissionPercentage" placeholder="Commission Percentage">
+    <hr>
+    <button type="submit">Register Committee</button>
+</form>
+
+<table>
+    <tr>        
+        <th>Committee Name</th>
+        <th>Committee Amount</th>
+        <th>No. of Members</th>
+        <th>Bidding Frequency</th>
+        <th>Commission Percentage</th>        
+    </tr>
+    <% allCommittee.forEach(element => { %>
+    <tr>
+        <td><%= element.committeeName%></td>
+        <td><%= element.committeeAmount%></td>
+        <td><%= element.noOfMembers%></td>
+        <td><%= element.biddingFrequency%></td>
+        <td><%= element.commissionPercentage%></td>
+        <td><%- include('./partials/deleteForm', { url: `/${element._id}` }) %></td>
+    </tr>
+    <% }) %>
+
+</table>

@@ -1,0 +1,33 @@
+<h1>Welcome: <%= user.name%></h1>
+
+<hr>
+<form action="/logout?_method=DELETE" method="POST">
+    <button type="submit">Logout</button>
+</form>
+<hr>
+<!-- view all committees joined by logged user -->
+<form action="/<%= user._id%>/view">
+<button type="submit">View MY Committees</button>
+</form>
+<hr>
+
+<h1>All Commmittees</h1>
+
+<table>
+    <tr>        
+        <th>Committee Name</th>
+        <th>Committee Amount</th>
+        <th>Bidding Frequency</th>     
+    </tr>
+    <% allCommittee.forEach(element => { %>
+    <tr>
+        <td><%= element.committeeName%></td>
+        <td><%= element.committeeAmount%></td>        
+        <td><%= element.biddingFrequency%></td>
+        <td><form action="/<%= element._id %>/join" method="POST">
+        <button type="submit">Join</button>
+        </form></td>
+    </tr>
+    <% }) %>
+
+</table>
