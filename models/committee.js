@@ -21,7 +21,10 @@ const committee_schema = new mongoose.Schema({
     commissionPercentage: Number,
     noOfMembers: Number,
     biddingFrequency : Number,
-    members: Array,
+    members: {
+        type:Array,
+        maxlength: 10
+        },
     startDate: Date,
     commmitteeDetails:[details_schema],
     membersLeft:Array,

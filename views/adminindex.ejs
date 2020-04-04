@@ -27,22 +27,54 @@
 </form>
 
 <table>
-    <tr>        
+    <tr>
         <th>Committee Name</th>
         <th>Committee Amount</th>
         <th>No. of Members</th>
+        <th>Members Joined</th>
         <th>Bidding Frequency</th>
-        <th>Commission Percentage</th>        
+        <th>Commission Percentage</th>
     </tr>
     <% allCommittee.forEach(element => { %>
     <tr>
         <td><%= element.committeeName%></td>
         <td><%= element.committeeAmount%></td>
         <td><%= element.noOfMembers%></td>
+        <td>
+            <% element.members.forEach(member => { %>
+
+            '<%= member.id%>,
+            <%= member.name%>'
+
+            <% }) %>
+        </td>
         <td><%= element.biddingFrequency%></td>
         <td><%= element.commissionPercentage%></td>
         <td><%- include('./partials/deleteForm', { url: `/${element._id}` }) %></td>
     </tr>
     <% }) %>
 
+</table>
+
+<h1>All Users</h1>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Admin</th>
+    </tr>
+    <% allUsers.forEach(element => { %>
+
+    <tr>
+        <th><%= element.id%></th>
+        <th><%= element.name%></th>
+        <th><%= element.email%></th>
+        <% if (element.admin == "true") { %>
+        <th>Yes</th>
+        <% } else {%>
+        <th>No</th>
+        <% }%>
+    </tr>
+    <% }) %>
 </table>

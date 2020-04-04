@@ -14,6 +14,7 @@ const LocalStrategy = require('passport-local').Strategy
 const User = require('./models/user');
 const Committee = require('./models/committee')
 
+app.engine('.ejs',require('ejs').__express)
 app.set('view engine', 'ejs')
 app.set('views', __dirname + '/views')
 app.set('layout', 'layouts/layout')
@@ -92,7 +93,8 @@ router.post('/register', async (req, res) => {
     const newUser = new User({
         name: req.body.name,
         email: req.body.email,
-        password: req.body.password
+        password: req.body.password,
+        playMoney : 100000
     })
     try {
         await newUser.save();
@@ -109,8 +111,9 @@ router.get('/', checkAuthenticated, async (req, res) => {
         // console.log(req.user.admin)
         // if user is admin or customer, adminindex is admin dashboard, index is customer dashboard
         if (req.user.admin == 'true') {
-            const allCommittee = await Committee.find({})
-            res.render('adminindex.ejs', {allCommittee,user:req.user})                
+            const allCommittee = await Committee.find({});
+            const allUsers = await User.find({});
+            res.render('adminindex.ejs', {allCommittee,user:req.user,allUsers})                
         } else {
             const allCommittee = await Committee.find({},{committeeName:1,committeeAmount:1,biddingFrequency:1,_id:1})
             res.render('index.ejs',{user:req.user,allCommittee})            
@@ -120,6 +123,7 @@ router.get('/', checkAuthenticated, async (req, res) => {
     }
 })
 
+// create new committee route --admin 
 router.post('/createCommittee', async (req, res) => {
     const newCommittee = new Committee({
         committeeName: req.body.committeeName,
@@ -137,6 +141,7 @@ router.post('/createCommittee', async (req, res) => {
     }
 })
 
+// remove committee route --admin
 router.put('/:id', async(req,res) => {
     try {
         let committee = await Committee.findById(req.params.id)
@@ -150,19 +155,26 @@ router.put('/:id', async(req,res) => {
 // route to join a committee
 router.post('/:id/join', async(req,res) => {
     try {
+        let temp = []
         // check if member has already joined the committee or not
         let members = await Committee.find({_id:req.params.id},{members:1})
         if (members[0].members == ''|| members[0].members == null ) {
             // enter the unique id of logged user into members array of committee instead of name
-            await Committee.updateOne({_id:req.params.id},{$push:{members:req.user.id}})
+            
+            await Committee.updateOne({_id:req.params.id},{$push:{members:{id:req.user.id,name:req.user.name}}})
         } else {
-            members[0].members.forEach(async (element) => {
-                if (element == req.user.name) {
+            // store member id in temp array to tackle multiplicity of same user in a committee
+            members[0].members.forEach((element) => {
+                temp.push(element.id)
+            });
+            for (let i = 0; i < temp.length; i++) {
+                const element = temp[i];
+                if (element == req.user.id) {
+                    res.redirect('/')
                     return;
-                }else {
-                    await Committee.updateOne({_id:req.params.id},{$push:{members:req.user.name}}) 
-                }
-            });            
+                }        
+            }   
+            await Committee.updateOne({_id:req.params.id},{$push:{members:{id:req.user.id,name:req.user.name}}})     
         }
         res.redirect('/')
     } catch (error) {
@@ -185,13 +197,13 @@ router.get('/:id/view' , async(req,res) => {
             if (element.members != '') {
                 for (let j = 0; j < element.members.length; j++) {
                     const element2 = element.members[j];
-                    if (element2 == req.user.id) {
+                    if (element2.id == req.user.id) {
                         userCommittee.push(element)
                     }
                 }
             }
         }
-        console.log(userCommittee)
+        // console.log(userCommittee)
         res.render('user/viewCommittee',{userCommittee})
     } catch (error) {
         console.log('view committee route error :'+ error)
@@ -199,11 +211,10 @@ router.get('/:id/view' , async(req,res) => {
 })
 
 router.delete('/logout', (req, res) => {
-    console.log('in logout')
     req.session.destroy(function (err) {
       res.redirect('/')
     })
-  })
+})
 
 app.listen(2000, () => console.log('Listening on Port 2000'))
 
