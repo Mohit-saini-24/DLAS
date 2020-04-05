@@ -1,0 +1,45 @@
+<table>
+    <tr>
+        <th>Committee Name</th>
+        <th>Committee Amount</th>
+        <th>No. of Members</th>
+        <th>Members Joined</th>
+        <th>Bidding Frequency</th>
+        <th>Commission Percentage</th>
+    </tr>
+    
+    <tr>
+        <td><%= viewCommittee.committeeName%></td>
+        <td><%= viewCommittee.committeeAmount%></td>
+        <td><%= viewCommittee.noOfMembers%></td>
+        <td>
+            <% viewCommittee.members.forEach(member => { %>
+
+            '<%= member.id%>,
+            <%= member.name%>'
+
+            <% }) %>
+        </td>
+        <td><%= viewCommittee.biddingFrequency%></td>
+        <td><%= viewCommittee.commissionPercentage%></td>
+    </tr>
+    
+
+</table>
+<hr>
+<hr>
+<form action="/admin/view/<%= viewCommittee._id%>/start" method="POST">
+<label>Enter Start Date</label>
+<input type="date" name="startDate" id="startDate" placeholder="Enter Start Date of Committee">
+<label>Bidding Time</label>
+<input type="time" name="biddingTime" id="biddingTime" placeholder="Enter Bidding Time">
+<button type="submit">Submit</button>
+</form>
+<hr>
+<a href="/">Home</a>
+<hr>
+<hr>
+<h1>Committee Details</h1>
+<% viewCommittee.committeeDetails.forEach(pool => { %>
+    <h1>Pool Number: <%= pool.pool_no%></h1>
+<% }) %>

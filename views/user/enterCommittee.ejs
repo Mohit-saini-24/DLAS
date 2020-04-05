@@ -1,0 +1,55 @@
+<h1>Name : <%= myCommittee.committeeName%></h1>
+<hr>
+<% myCommittee.committeeDetails.forEach(pool => { %>
+<h4>Pool No. : <%= pool.pool_no%></h4>
+<% }) %>
+<hr>
+<form action="/<%= myCommittee._id%>/enter/start" method="POST">
+    <label>Enter Bid Amount</label>
+
+    <p>Don't Want to Bid</p>
+    <input type="radio" name="bid" id="bid" value="0">
+    <hr>
+    <div class="bid-dashboard">
+        <div class="bid-container">
+            <p>2%</p>
+            <input type="radio" name="bid" id="bid" value="2">
+            <p>4%</p>
+            <input type="radio" name="bid" id="bid" value="4">
+            <p>6%</p>
+            <input type="radio" name="bid" id="bid" value="6">
+            <p>8%</p>
+            <input type="radio" name="bid" id="bid" value="8">
+            <p>10%</p>
+            <input type="radio" name="bid" id="bid" value="10">
+
+        </div>
+        <div class="bid-container">
+            <p>12%</p>
+            <input type="radio" name="bid" id="bid" value="12">
+            <p>14%</p>
+            <input type="radio" name="bid" id="bid" value="14">
+            <p>16%</p>
+            <input type="radio" name="bid" id="bid" value="16">
+            <p>18%</p>
+            <input type="radio" name="bid" id="bid" value="18">
+            <p>20%</p>
+            <input type="radio" name="bid" id="bid" value="20">
+        </div>
+        <div class="bid-container">
+            <p>22%</p>
+            <input type="radio" name="bid" id="bid" value="22">
+            <p>24%</p>
+            <input type="radio" name="bid" id="bid" value="24">
+            <p>26%</p>
+            <input type="radio" name="bid" id="bid" value="26">
+            <p>28%</p>
+            <input type="radio" name="bid" id="bid" value="28">
+            <p>30%</p>
+            <input type="radio" name="bid" id="bid" value="30">
+        </div>
+    </div>
+    <button type="submit">Submit</button>
+</form>
+<hr>
+<a href="javascript:history.back()">Go Back</a>

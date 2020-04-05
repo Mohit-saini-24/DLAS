@@ -50,8 +50,11 @@
         </td>
         <td><%= element.biddingFrequency%></td>
         <td><%= element.commissionPercentage%></td>
+        <td><a href="/admin/view/<%= element._id%>">View</a></td>
         <td><%- include('./partials/deleteForm', { url: `/${element._id}` }) %></td>
+        <br>
     </tr>
+    
     <% }) %>
 
 </table>
@@ -65,7 +68,7 @@
         <th>Admin</th>
     </tr>
     <% allUsers.forEach(element => { %>
-
+        
     <tr>
         <th><%= element.id%></th>
         <th><%= element.name%></th>
@@ -76,5 +79,6 @@
         <th>No</th>
         <% }%>
     </tr>
+    
     <% }) %>
 </table>

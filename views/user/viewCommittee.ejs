@@ -5,12 +5,16 @@
         <th>Committee Name</th>
         <th>Committee Amount</th>
         <th>Bidding Frequency (No. of Days)</th>     
+        <th>Next Bidding Date</th>
     </tr>
-    <% userCommittee.forEach(element => { %>
+    <% userCommittee.forEach(committee => { %>
     <tr>
-        <td><%= element.committeeName%></td>
-        <td><%= element.committeeAmount%></td>        
-        <td><%= element.biddingFrequency%></td>        
+        <td><%= committee.committeeName%></td>
+        <td><%= committee.committeeAmount%></td>        
+        <td><%= committee.biddingFrequency%></td>
+        <td><%= moment(committee.committeeDetails[committee.committeeDetails.length - 1].poolStartDate).format('MMM-DD-YYYY')%></td>
+        
+        <td><a href="/<%= committee._id%>/enter">Enter Committee</a></td>        
     </tr>
     <% }) %>
 
